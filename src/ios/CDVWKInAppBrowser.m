@@ -1107,16 +1107,18 @@ BOOL isExiting = FALSE;
         self.webView.frame = viewBounds;
         [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle]];
     }
-    if (@available(iOS 13.0, *)) {
-        UIView *statusBar = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.windowScene.statusBarManager.statusBarFrame];
-        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-           statusBar.backgroundColor = [self colorFromHexString:_browserOptions.statusbarcolor];
-        }
-        [[UIApplication sharedApplication].keyWindow addSubview:statusBar];
-    } else {
-        UIView *statusBar = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.frame];
-        if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-           statusBar.backgroundColor = [self colorFromHexString:_browserOptions.statusbarcolor];
+    if (_browserOptions.statusbarcolor != nil) {
+        if (@available(iOS 13.0, *)) {
+            UIView *statusBar = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.windowScene.statusBarManager.statusBarFrame];
+            if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+            statusBar.backgroundColor = [self colorFromHexString:_browserOptions.statusbarcolor];
+            }
+            [[UIApplication sharedApplication].keyWindow addSubview:statusBar];
+        } else {
+            UIView *statusBar = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.frame];
+            if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+            statusBar.backgroundColor = [self colorFromHexString:_browserOptions.statusbarcolor];
+            }
         }
     }
     [self rePositionViews];
